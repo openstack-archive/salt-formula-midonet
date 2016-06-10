@@ -1,0 +1,37 @@
+applications:
+- midonet
+classes:
+- service.midonet.support
+parameters:
+  _param:
+    midonet_version: v5.0
+  midonet:
+    control:
+      version: ${_param:midonet_version}
+      enterprise:
+        enabled: true
+      enabled: true
+      host: ${_param:cluster_vip_address}
+      nova:
+        control:
+          host: ${_param:cluster_vip_address}
+      database:
+        members:
+        - host: ${_param:cluster_node01_address}
+          port: 9160
+        - host: ${_param:cluster_node02_address}
+          port: 9160
+        - host: ${_param:cluster_node03_address}
+          port: 9160
+      zookeeper:
+        members:
+        - host: ${_param:cluster_node01_address}
+        - host: ${_param:cluster_node02_address}
+        - host: ${_param:cluster_node03_address}
+      identity:
+        user: midonet
+        password: ${_param:keystone_midonet_password}
+        host: ${_param:cluster_vip_address}
+        admin:
+          token: ${_param:keystone_service_token}
+          password: ${_param:keystone_admin_password}

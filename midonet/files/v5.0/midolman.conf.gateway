@@ -1,0 +1,32 @@
+{%- from "midonet/map.jinja" import gateway with context %}
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+
+########################################################################
+#
+#                        DEPRECATION NOTICE
+#
+#
+#      This file is DEPRECATED. Although FULLY backwards compatible.
+#
+#      The two values found here will only be used by MidoNet to
+#      find the zookeeper server that holds MidoNet configuration.
+#
+#      Please read mn-conf(1) for further details.
+#
+#      You can import your midolman.conf configuration into the
+#      new system by running `mn-conf import`. (Check the manual
+#      page for usage example and details).
+#
+#
+########################################################################
+
+[zookeeper]
+zookeeper_hosts = {% for member in gateway.zookeeper.members %}{{ member.host }}:2181{% if not loop.last %},{% endif %}{% endfor %}

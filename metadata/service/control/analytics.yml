@@ -1,0 +1,14 @@
+applications:
+- midonet
+classes:
+- service.midonet.support
+parameters:
+  _param:
+    midonet_version: v5.0
+  midonet:
+    analytics:
+      version: ${_param:midonet_version}
+      enterprise:
+        enabled: true
+      enabled: true
+      host: ${_param:single_address}

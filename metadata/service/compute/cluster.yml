@@ -1,0 +1,19 @@
+applications:
+- midonet
+classes:
+- service.midonet.support
+parameters:
+  _param:
+    midonet_version: v5.0
+  midonet:
+    compute:
+      version: ${_param:midonet_version}
+      enterprise:
+        enabled: true
+      enabled: true
+      zookeeper:
+        members:
+        - host: ${_param:cluster_node01_address}
+        - host: ${_param:cluster_node02_address}
+        - host: ${_param:cluster_node03_address}
+      template: medium

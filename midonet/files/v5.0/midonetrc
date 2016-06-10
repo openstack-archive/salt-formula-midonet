@@ -1,0 +1,6 @@
+{%- from "midonet/map.jinja" import control with context %}
+[cli]
+api_url = http://{{ control.identity.host }}:8181/midonet-api
+username = admin
+password = {{ control.identity.admin.password }}
+project_id = admin

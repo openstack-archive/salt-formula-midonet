@@ -1,0 +1,55 @@
+
+{% set compute = salt['grains.filter_by']({
+    'Debian': {
+        'pkgs': ['openjdk-8-jre-headless', 'midolman', 'nova-network'],
+        'services': ['midolman']
+    },
+    'RedHat': {
+        'pkgs': [],
+        'services': []
+    },
+}, merge=salt['pillar.get']('midonet:compute')) %}
+
+{% set gateway = salt['grains.filter_by']({
+    'Debian': {
+        'pkgs': ['openjdk-8-jre-headless','midolman'],
+        'services': ['midolman']
+    },
+    'RedHat': {
+        'pkgs': [],
+        'services': []
+    },
+}, merge=salt['pillar.get']('midonet:gateway')) %}
+
+{% set control = salt['grains.filter_by']({
+    'Debian': {
+        'pkgs': ['midonet-cluster','python-midonetclient'],
+        'services': ['midonet-cluster']
+    },
+    'RedHat': {
+        'pkgs': [],
+        'services': []
+    },
+}, merge=salt['pillar.get']('midonet:control')) %}
+
+{% set web = salt['grains.filter_by']({
+    'Debian': {
+        'pkgs': ['midonet-manager'],
+        'services': ['apache2']
+    },
+    'RedHat': {
+        'pkgs': [],
+        'services': []
+    },
+}, merge=salt['pillar.get']('midonet:web')) %}
+
+{% set analytics = salt['grains.filter_by']({
+    'Debian': {
+        'pkgs': ['midonet-tools', 'midonet-analytics', 'python-elasticsearch-curator'],
+        'services': []
+    },
+    'RedHat': {
+        'pkgs': [],
+        'services': []
+    },
+}, merge=salt['pillar.get']('midonet:analytics')) %}

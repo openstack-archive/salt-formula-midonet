@@ -1,0 +1,15 @@
+applications:
+- midonet
+classes:
+- service.midonet.support
+parameters:
+  _param:
+    midonet_version: v5.0
+  midonet:
+    web:
+      version: ${_param:midonet_version}
+      enabled: true
+      api:
+        host: ${_param:cluster_vip_address}
+      analytics:
+        host: ${_param:midonet_analytics_address}

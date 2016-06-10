@@ -1,0 +1,17 @@
+{%- from "midonet/map.jinja" import web with context %}
+#!/bin/bash -e
+
+cat /srv/salt/pillar/midonet-web.sls | envsubst > /tmp/midonet-web.sls
+mv /tmp/midonet-web.sls /srv/salt/pillar/midonet-web.sls
+
+salt-call --local --retcode-passthrough state.highstate
+
+{% for service in web.services %}
+service {{ service }} stop || true
+{% endfor %}
+
+/usr/sbin/apache2 -k start
+
+{#-
+vim: syntax=jinja
+-#}

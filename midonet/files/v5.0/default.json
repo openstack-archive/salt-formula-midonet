@@ -1,0 +1,24 @@
+{%- from "midonet/map.jinja" import control with context %}
+zookeeper {
+    zookeeper_hosts = "{% for member in control.zookeeper.members %}{{ member.host }}:2181{% if not loop.last %},{% endif %}{% endfor %}"
+}
+cassandra {
+    servers = "{% for member in control.database.members %}{{ member.host }}{% if not loop.last %},{% endif %}{% endfor %}"
+    replication_factor : 3
+}
+cluster.auth {
+    provider_class = "org.midonet.cluster.auth.keystone.KeystoneService"
+    admin_role = "admin"
+    keystone.tenant_name = "admin"
+    keystone.admin_token = "{{ control.identity.admin.token }}"
+    keystone.host = {{ control.identity.host }}
+    keystone.port = 35357
+}
+agent {
+    openstack {
+        metadata {
+            nova_metadata_url : "http://{{ control.nova.control.host }}:8775"
+            enabled : true
+        }
+    }
+}
