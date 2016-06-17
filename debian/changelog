@@ -1,0 +1,5 @@
+salt-formula-midonet (0.1) trusty; urgency=medium
+
+  * Initial release
+
+ -- Marek Celoud <marek.celoud@tcpcloud.eu>  Thu, 16 Jun 2016 23:23:41 +0200

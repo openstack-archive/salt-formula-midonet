@@ -1,0 +1,2 @@
+midonet/*             /usr/share/salt-formulas/env/midonet/
+metadata/service/*      /usr/share/salt-formulas/reclass/service/midonet/
