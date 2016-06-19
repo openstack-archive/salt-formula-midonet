@@ -10,6 +10,8 @@ salt-call --local --retcode-passthrough state.highstate
 service {{ service }} stop || true
 {% endfor %}
 
+cat /etc/midonet/default.json | mn-conf set -t default
+
 /usr/lib/jvm/java-1.8.0-openjdk-amd64/bin/java -Djava.library.path=/lib:/usr/lib -cp /etc/midonet-cluster:/usr/share/midonet-cluster/midonet-cluster.jar:/usr/share/midonet-cluster/addons/* -XX:+AggressiveOpts -XX:+UseThreadPriorities -XX:ThreadPriorityPolicy=42 -Xms$MAX_HEAP_SIZE -Xmx$MAX_HEAP_SIZE -Xmn$HEAP_NEWSIZE -XX:HeapDumpPath=/var/log/midonet-cluster/ -XX:+HeapDumpOnOutOfMemoryError -XX:OnOutOfMemoryError="kill;-3;%p" -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled -XX:SurvivorRatio=8 -XX:MaxTenuringThreshold=6 -XX:CMSInitiatingOccupancyFraction=75 -XX:+UseCMSInitiatingOccupancyOnly -XX:+UseTLAB -XX:+ResizeTLAB -XX:TLABSize=2m -XX:PretenureSizeThreshold=2m -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.local.only= -Dcom.sun.management.jmxremote.port=7201 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false -Djava.rmi.server.hostname=$HOSTNAME -Dmidonet-cluster.log.dir=/var/log/midonet-cluster/ -Dconfig.file= -Dlogback.configurationFile=/etc/midonet-cluster/logback.xml org.midonet.cluster.ClusterNode /etc/midonet/midonet.conf
 
 {#-

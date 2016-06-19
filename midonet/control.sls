@@ -19,12 +19,6 @@ midonet_control_packages:
   - require:
     - pkg: midonet_control_packages
 
-midonet_initial_setting:
-  cmd.run:
-  - name: cat /etc/midonet/default.json | mn-conf set -t default
-  - require:
-    - file: /etc/midonet/default.json
-
 /root/.midonetrc:
   file.managed:
   - source: salt://midonet/files/{{ control.version }}/midonetrc
@@ -38,6 +32,25 @@ midonet_control_services:
   - enable: true
   - watch:
     - file: /etc/midonet/midonet.conf
+
+{%- if grains.get('virtual_subtype', None) == "Docker" %}
+
+midonet_control_entrypoint:
+  file.managed:
+  - name: /entrypoint.sh
+  - template: jinja
+  - source: salt://midonet/files/entrypoint.sh.control
+  - mode: 755
+
+{%- else %}
+
+midonet_initial_setting:
+  cmd.run:
+  - name: cat /etc/midonet/default.json | mn-conf set -t default
+  - require:
+    - file: /etc/midonet/default.json
+
+{%- endif %}
 
 {%- if control.enterprise.enabled %}
 
